@@ -3,7 +3,6 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-// Helper to check if a number is prime
 const isPrime = (num) => {
     if (num <= 1) return false;
     for (let i = 2; i <= Math.sqrt(num); i++) {
@@ -12,13 +11,11 @@ const isPrime = (num) => {
     return true;
 };
 
-// Helper to calculate GCD (needed for LCM)
 const gcd = (a, b) => {
     if (b === 0) return a;
     return gcd(b, a % b);
 };
 
-// Helper to calculate LCM of an array
 const calculateLCM = (arr) => {
     if (!arr || arr.length === 0) return null;
     let result = arr[0];
@@ -28,7 +25,6 @@ const calculateLCM = (arr) => {
     return result;
 };
 
-// Helper to calculate HCF (GCD) of an array
 const calculateHCF = (arr) => {
     if (!arr || arr.length === 0) return null;
     let result = arr[0];
@@ -38,7 +34,6 @@ const calculateHCF = (arr) => {
     return result;
 };
 
-// Generate Fibonacci sequence up to n terms
 const generateFibonacci = (n) => {
     if (n <= 0) return [];
     if (n === 1) return [0];
@@ -50,22 +45,17 @@ const generateFibonacci = (n) => {
     return sequence;
 };
 
-// Filter Primes from an array
 const getPrimes = (arr) => {
     return arr.filter(num => isPrime(num));
 };
 
-// Call Google Gemini AI
 const callGeminiAI = async (question) => {
     try {
         const apiKey = process.env.GEMINI_API_KEY;
-        if (!apiKey) {
-            console.error("GEMINI_API_KEY is not set.");
-            return "Error: API Key missing";
-        }
+        if (!apiKey) return "Error: API Key missing";
 
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-        
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`;
+
         const payload = {
             contents: [{
                 parts: [{
@@ -75,16 +65,14 @@ const callGeminiAI = async (question) => {
         };
 
         const response = await axios.post(url, payload);
-        
+
         if (response.data && response.data.candidates && response.data.candidates.length > 0) {
-            const text = response.data.candidates[0].content.parts[0].text;
-            // Extract single word answer, remove formatting if any
-            return text.trim().split(/\s+/)[0]; 
+            return response.data.candidates[0].content.parts[0].text.trim().split(/\s+/)[0];
         }
         return "No response from AI";
 
     } catch (error) {
-        console.error("Error calling Gemini AI:", error.response ? error.response.data : error.message);
+        console.error("Gemini Error:", error.response ? JSON.stringify(error.response.data) : error.message);
         return "AI Service Error";
     }
 };

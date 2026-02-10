@@ -38,7 +38,7 @@ const testEndpoints = async () => {
             console.error("❌ POST /bfhl (LCM) Failed:", e.response ? e.response.data : e.message);
         }
 
-        // 5. Test POST /bfhl - HCF
+
         try {
             const hcfRes = await axios.post(`${BASE_URL}/bfhl`, { hcf: [24, 36, 60] });
             console.log("✅ POST /bfhl (HCF):", hcfRes.data);
@@ -46,16 +46,15 @@ const testEndpoints = async () => {
             console.error("❌ POST /bfhl (HCF) Failed:", e.response ? e.response.data : e.message);
         }
 
-        // 6. Test POST /bfhl - AI (Mocked if key invalid)
+
         try {
-            // Note: This might fail if API key is not valid, which is expected during initial setup
+
             const aiRes = await axios.post(`${BASE_URL}/bfhl`, { AI: "What is the capital of India?" });
             console.log("✅ POST /bfhl (AI):", aiRes.data);
         } catch (e) {
             console.log("⚠️ POST /bfhl (AI) returned error (likely due to missing API key, which is expected):", e.response ? e.response.data : e.message);
         }
 
-        // 7. Test Invalid Input - Multiple Keys
         try {
             await axios.post(`${BASE_URL}/bfhl`, { fibonacci: 5, prime: [2, 3] });
             console.error("❌ POST /bfhl (Multiple Keys) Failed: Should have returned error but got success.");

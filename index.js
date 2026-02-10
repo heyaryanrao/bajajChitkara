@@ -12,26 +12,23 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-const EMAIL = "jaspreet.kaur@chitkara.edu.in"; // Replace with actual email if different
+const EMAIL = "aryan1117.be23@chitkarauniversity.edu.in";
 
-// Function to validate integer arrays
 const isValidIntArray = (arr) => {
     return Array.isArray(arr) && arr.every(item => Number.isInteger(item));
 };
 
-// POST /bfhl Endpoint
 app.post('/bfhl', async (req, res) => {
     try {
         const { fibonacci, prime, lcm, hcf, AI } = req.body;
 
-        // Count how many valid keys are present
         const keysPresent = [fibonacci, prime, lcm, hcf, AI].filter(val => val !== undefined).length;
 
         if (keysPresent !== 1) {
             return res.status(400).json({
                 is_success: false,
                 official_email: EMAIL,
-                message: "Request must contain exactly one valid key: fibonacci, prime, lcm, hcf, or AI."
+                message: "Request must contain exactly one valid key"
             });
         }
 
@@ -75,7 +72,6 @@ app.post('/bfhl', async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Server Error:", error);
         res.status(500).json({
             is_success: false,
             official_email: EMAIL,
@@ -84,7 +80,6 @@ app.post('/bfhl', async (req, res) => {
     }
 });
 
-// GET /health Endpoint
 app.get('/health', (req, res) => {
     res.json({
         is_success: true,
@@ -93,5 +88,5 @@ app.get('/health', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });

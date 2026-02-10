@@ -1,0 +1,7 @@
+
+> bjajfin@1.0.0 start
+> node index.js
+
+[dotenv@17.2.4] injecting env (2) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+[dotenv@17.2.4] injecting env (0) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+Server running on port 3000
